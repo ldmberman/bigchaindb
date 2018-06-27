@@ -283,13 +283,8 @@ class TestBlockModel(object):
 
         # create the block
         block = Block(txs)
-        # decouple assets
-        assets_from_block, block_dict = block.decouple_assets()
-
-        # write the assets and block separately
-        b.write_assets(assets_from_block)
         b.write_block(block)
 
         # check the reconstructed block is the same as the original block
-        block_from_db = Block.from_db(b, block_dict)
+        block_from_db = Block.from_db(b, block.to_dict())
         assert block == block_from_db
